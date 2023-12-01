@@ -1,0 +1,3 @@
+/Users/ayano/Documents/developing/projects/TextEditor/cmake-build-debug/CMakeFiles/TextEditor.dir
+/Users/ayano/Documents/developing/projects/TextEditor/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/ayano/Documents/developing/projects/TextEditor/cmake-build-debug/CMakeFiles/rebuild_cache.dir
