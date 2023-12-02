@@ -1,8 +1,19 @@
 #include <iostream>
-#include "gainput.h"
+#include <string>
 #include "KeyDefinition.h"
-
+#include "TerminalUtil.h"
+#include "InputHandler.h"
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    std::string buffer;
+    std::string buffer_displaying;
+
+    char in = 0;
+    while(in != EOF){
+        in = static_cast<char>(getchar());
+        if (in != '0'){
+            buffer += in;
+        }
+        putBuffer(buffer);
+    }
     return 0;
 }

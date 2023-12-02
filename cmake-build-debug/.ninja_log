@@ -1,4 +1,5 @@
 # ninja log v5
-0	34	1701454358872660882	build.ninja	ba43fe0a26cff53d
-0	240	1701452644751156534	CMakeFiles/TextEditor.dir/src/main.cpp.o	86399b07439b5b43
-241	286	1701452644798733463	TextEditor	125b62bb4d433dc6
+0	34	1701536089895306423	build.ninja	ba43fe0a26cff53d
+3	398	1701459497122007974	CMakeFiles/TextEditor.dir/src/main.cpp.o	b8c07102483746f2
+239	277	1701459534945148587	TextEditor	abd44cd4566b43b1
+3	239	1701459534905110275	CMakeFiles/TextEditor.dir/src/TerminalUtil.cpp.o	5fad20e9dbfb1a47

@@ -49,10 +49,24 @@ cmake_ninja_workdir = /Users/ayano/Documents/developing/projects/TextEditor/cmak
 
 build cmake_object_order_depends_target_TextEditor: phony || CMakeFiles/TextEditor.dir
 
+build CMakeFiles/TextEditor.dir/src/InputHandler.cpp.o: CXX_COMPILER__TextEditor_unscanned_Debug /Users/ayano/Documents/developing/projects/TextEditor/src/InputHandler.cpp || cmake_object_order_depends_target_TextEditor
+  DEP_FILE = CMakeFiles/TextEditor.dir/src/InputHandler.cpp.o.d
+  FLAGS = -g -std=gnu++2b -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/ayano/Documents/developing/projects/TextEditor/include/TextEditor -I/Users/ayano/Documents/developing/projects/TextEditor/dependencies/include
+  OBJECT_DIR = CMakeFiles/TextEditor.dir
+  OBJECT_FILE_DIR = CMakeFiles/TextEditor.dir/src
+
+build CMakeFiles/TextEditor.dir/src/TerminalUtil.cpp.o: CXX_COMPILER__TextEditor_unscanned_Debug /Users/ayano/Documents/developing/projects/TextEditor/src/TerminalUtil.cpp || cmake_object_order_depends_target_TextEditor
+  DEP_FILE = CMakeFiles/TextEditor.dir/src/TerminalUtil.cpp.o.d
+  FLAGS = -g -std=gnu++2b -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/ayano/Documents/developing/projects/TextEditor/include/TextEditor -I/Users/ayano/Documents/developing/projects/TextEditor/dependencies/include
+  OBJECT_DIR = CMakeFiles/TextEditor.dir
+  OBJECT_FILE_DIR = CMakeFiles/TextEditor.dir/src
+
 build CMakeFiles/TextEditor.dir/src/main.cpp.o: CXX_COMPILER__TextEditor_unscanned_Debug /Users/ayano/Documents/developing/projects/TextEditor/src/main.cpp || cmake_object_order_depends_target_TextEditor
   DEP_FILE = CMakeFiles/TextEditor.dir/src/main.cpp.o.d
   FLAGS = -g -std=gnu++2b -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -fcolor-diagnostics
-  INCLUDES = -I/Users/ayano/Documents/developing/projects/TextEditor/include/TextEditor -I/Users/ayano/Documents/developing/projects/TextEditor/dependencies/gaininput/include
+  INCLUDES = -I/Users/ayano/Documents/developing/projects/TextEditor/include/TextEditor -I/Users/ayano/Documents/developing/projects/TextEditor/dependencies/include
   OBJECT_DIR = CMakeFiles/TextEditor.dir
   OBJECT_FILE_DIR = CMakeFiles/TextEditor.dir/src
 
@@ -64,10 +78,10 @@ build CMakeFiles/TextEditor.dir/src/main.cpp.o: CXX_COMPILER__TextEditor_unscann
 #############################################
 # Link the executable TextEditor
 
-build TextEditor: CXX_EXECUTABLE_LINKER__TextEditor_Debug CMakeFiles/TextEditor.dir/src/main.cpp.o
+build TextEditor: CXX_EXECUTABLE_LINKER__TextEditor_Debug CMakeFiles/TextEditor.dir/src/InputHandler.cpp.o CMakeFiles/TextEditor.dir/src/TerminalUtil.cpp.o CMakeFiles/TextEditor.dir/src/main.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk
-  LINK_LIBRARIES = -Wl,-rpath,/Users/ayano/Documents/developing/projects/TextEditor/dependencies/gaininput/lib  -lgainputstatic
-  LINK_PATH = -L/Users/ayano/Documents/developing/projects/TextEditor/dependencies/gaininput/lib
+  LINK_LIBRARIES = -Wl,-rpath,/Users/ayano/Documents/developing/projects/TextEditor/dependencies/lib/OIS  -lOIS.1.5.1
+  LINK_PATH = -L/Users/ayano/Documents/developing/projects/TextEditor/dependencies/lib/OIS
   OBJECT_DIR = CMakeFiles/TextEditor.dir
   POST_BUILD = :
   PRE_LINK = :
