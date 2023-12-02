@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(INCLUDE_PROJECT include/TextEditor)
 set(INCLUDE_THIRD_PARTIES dependencies/include)
 set(INCLUDE ${INCLUDE_PROJECT} ${INCLUDE_THIRD_PARTIES})
-set(LIBS dependencies/lib/OIS)
+set(LIBS dependencies/lib/ois)
 
 file(GLOB SRC "src/*.cpp")
 
