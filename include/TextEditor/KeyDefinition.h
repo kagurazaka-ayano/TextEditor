@@ -9,13 +9,5 @@
 #ifndef TEXTEDITOR_KEYDEFINITION_H
 #define TEXTEDITOR_KEYDEFINITION_H
 
-#include "ois/OIS.h"
-
-class Keyboard : public OIS::Keyboard {
-    Keyboard() = default;
-
-};
-
-
 
 #endif //TEXTEDITOR_KEYDEFINITION_H

@@ -1,19 +1,27 @@
 #include <iostream>
 #include <string>
-#include "KeyDefinition.h"
-#include "TerminalUtil.h"
-#include "InputHandler.h"
+#include <sstream>
+#include <cstdlib>
+#include "ncurses/ncurses.h"
+#include "WindowManager.h"
 int main() {
+    setenv("TERMINFO", TERMINFO_PATH, 1);
+    initscr();
+    raw();
+    noecho();
+    keypad(stdscr, true);
+    int ch = 0;
+    int input_cnt = 0;
     std::string buffer;
-    std::string buffer_displaying;
+    int height, width;
+    getmaxyx(stdscr, height, width);
+    auto buffer_ptr = buffer.begin();
+    WINDOW* my_win;
 
-    char in = 0;
-    while(in != EOF){
-        in = static_cast<char>(getchar());
-        if (in != '0'){
-            buffer += in;
-        }
-        putBuffer(buffer);
+    while(ch != 'Q'){
+        ch = getch();
+
     }
+    endwin();
     return 0;
 }
