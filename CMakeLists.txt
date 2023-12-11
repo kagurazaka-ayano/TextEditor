@@ -6,26 +6,48 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 message("system: ${CMAKE_SYSTEM_NAME}")
 
+set(INCLUDE_PROJECT include/TextEditor)
+set(INCLUDE_THIRD_PARTIES )
+set(LIB_ROOT dependencies/lib)
+
+# for wchar support
+add_compile_definitions(NCURSES_WIDECHAR)
+
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     execute_process(COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE ARCHITECTURE)
     message("architecture: ${ARCHITECTURE}")
-else ()
-    error("platforms except macos are not yet supported :(")
+    file(GLOB NCURSES "${LIB_ROOT}/ncurses/Darwin/*.a")
+    set(INCLUDE_THIRD_PARTIES "dependencies/include/Darwin")
+elseif (MINGW)
+    message("using mingw")
+    set(INCLUDE_THIRD_PARTIES "dependencies/include/mingw")
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+        message("Building for: 64bit")
+        set(NCURSES "${LIB_ROOT}/ncurses/mingw64/*.a")
+    elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
+        message("Building for: 32bit")
+        set(NCURSES "${LIB_ROOT}/ncurses/mingw32/*.a")
+    endif ()
+elseif (LINUX)
+    message("linux is not yet being supported :(")
+elseif (MSVC)
+    error("MSVC is not supported")
 endif ()
 
-set(INCLUDE_PROJECT include/TextEditor)
-set(INCLUDE_THIRD_PARTIES dependencies/include)
 set(INCLUDE ${INCLUDE_PROJECT} ${INCLUDE_THIRD_PARTIES})
-set(LIB_ROOT dependencies/lib)
 set(SCRIPTS_ROOT scripts)
 
-file(GLOB NCURSES "${LIB_ROOT}/ncurses/${CMAKE_SYSTEM_NAME}/*.a")
+
+
 file(GLOB SRC "src/*.cpp")
 
 list(APPEND LIB_LIST ${NCURSES})
 
 
-set(TERMINFO_DIR ${LIB_ROOT}/ncurses/${CMAKE_SYSTEM_NAME}/terminfo)
+set(TERMINFO_DIR ${LIB_ROOT}/ncurses/terminfo)
+if ()
+
+endif ()
 
 add_executable(${CMAKE_PROJECT_NAME} ${SRC})
 

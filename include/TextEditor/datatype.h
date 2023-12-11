@@ -10,9 +10,16 @@
 #define TEXTEDITOR_DEFINITION_H
 
 #include <utility>
-#include "ncurses/ncurses.h"
 #include <cstring>
+#include "ncursesw/ncurses.h"
 
+// making life easier
+typedef NCURSES_SIZE_T NCSIZE;
+typedef unsigned long long ull;
+
+/**
+ * general purpose color structure
+ */
 struct Color{
     unsigned char r;
     unsigned char g;
