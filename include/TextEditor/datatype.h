@@ -1,5 +1,4 @@
 /**
- * @parent include/TextEditor
  * @file definition.h
  * @author ayano
  * @date 12/3/23

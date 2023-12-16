@@ -41,3 +41,11 @@ build
 !dependencies/lib/ncurses/mingw32/*.a
 !dependencies/lib/ncurses/mingw64/*.a
 !dependencies/lib/ncurses/terminfo/*
+
+# apple shit
+.DS_Store
+
+# doxygen output file
+
+Doc/out
+

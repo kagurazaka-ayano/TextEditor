@@ -1,5 +1,4 @@
 /**
- * @parent include/TextEditor
  * @file TerminalUtil.h
  * @author ayano
  * @date 12/1/23

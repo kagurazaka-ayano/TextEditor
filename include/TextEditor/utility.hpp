@@ -1,5 +1,4 @@
 /**
- * @parent include/TextEditor
  * @file utility.hpp
  * @author ayano
  * @date 12/4/23

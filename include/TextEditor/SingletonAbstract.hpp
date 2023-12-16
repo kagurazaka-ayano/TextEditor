@@ -1,5 +1,4 @@
 /**
- * @parent include/TextEditor
  * @file SingletonAbstract.hpp
  * @author ayano
  * @date 12/1/23

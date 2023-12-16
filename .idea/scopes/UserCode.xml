@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="UserCode" pattern="file[TextEditor]:include//*||file[TextEditor]:src//*||file:CMakeLists.txt" />
+</component>

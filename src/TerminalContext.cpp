@@ -1,5 +1,4 @@
 /**
- * @parent src
  * @file TerminalContext.cpp
  * @author ayano
  * @date 12/4/23

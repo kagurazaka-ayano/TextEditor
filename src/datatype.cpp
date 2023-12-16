@@ -1,5 +1,4 @@
 /**
- * @parent src
  * @file datatype.cpp
  * @author ayano
  * @date 12/3/23
