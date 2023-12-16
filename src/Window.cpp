@@ -7,7 +7,6 @@
 */
 
 #include "Window.h"
-#include "utility.hpp"
 
 BaseWindow::BaseWindow(WINDOW *data, std::wstring name, const WindowBorder &border, bool focus, NCSIZE startx, NCSIZE starty)
         : data(data), name(std::move(name)), window_border(border), focus(focus), width(getmaxx(data)), height(getmaxy(data)),
@@ -16,13 +15,13 @@ BaseWindow::BaseWindow(WINDOW *data, std::wstring name, const WindowBorder &bord
     display_begin_line = 0;
     line_buffer.emplace_back(L"");
     setBorder(window_border);
-    std::wstringstream ss;
-    ss << L"Name: " << this->name;
-    mvwaddwstr(data, height, 1, ss.str().c_str());
+    mvwaddwstr(data, height, 1, fmt::format(L"Name: {}", this->name).c_str());
 }
 
-void BaseWindow::setBorder(const WindowBorder &border) {
+BaseWindow* BaseWindow::setBorder(const WindowBorder &border) {
     wborder(data, border.ls, border.rs, border.ts, border.bs, border.tl, border.tr, border.bl, border.br);
+    window_border = border;
+    return this;
 }
 
 WINDOW *BaseWindow::getWindowPtr() const {
@@ -78,14 +77,14 @@ WindowBorder BaseWindow::starBorder = WindowBorder('*', '*', '*', '*', '@', '@',
  *      · ·
  *      *·*
  */
-WindowBorder BaseWindow::disabledBorder = WindowBorder(u'·', u'·', u'·', u'·', '*', '*', '*', '*');
+WindowBorder BaseWindow::disabledBorder = WindowBorder(L'·', L'·', L'·', L'·', '*', '*', '*', '*');
 
 /*
  *      ╭─╮
  *      │ │
  *      ╰─╯
  */
-WindowBorder BaseWindow::roundBorder = WindowBorder(u'│', u'│', u'─', u'─', u'╭', u'╮', u'╰', u'╯');
+WindowBorder BaseWindow::roundBorder = WindowBorder(L'│', L'│', L'─', L'─', L'╭', L'╮', L'╰', L'╯');
 
 
 
@@ -122,35 +121,70 @@ WindowBorder BaseWindow::getBorder() const {
     return window_border;
 }
 
+BaseWindow* BaseWindow::setPtr(WINDOW* updatedPtr) {
+    this->data = updatedPtr;
+    return this;
+}
+
+BaseWindow *BaseWindow::setName(const std::wstring &name) {
+    this->name = name;
+    return this;
+}
+
+BaseWindow *BaseWindow::setHeight(NCSIZE height) {
+    this->height = height;
+    return this;
+}
+
+BaseWindow *BaseWindow::setWidth(NCSIZE width) {
+    this->width = width;
+    return this;
+}
+
+BaseWindow *BaseWindow::setY(NCSIZE y) {
+    this->pos_y = y;
+    return this;
+}
+
+BaseWindow *BaseWindow::setX(NCSIZE x) {
+    this->pos_x = x;
+    return this;
+}
+
+void BaseWindow::clearBorder() {
+    wborder(data, BaseWindow::nullBorder.ls, BaseWindow::nullBorder.rs, BaseWindow::nullBorder.ts, BaseWindow::nullBorder.bs, BaseWindow::nullBorder.tl, BaseWindow::nullBorder.tr, BaseWindow::nullBorder.bl, BaseWindow::nullBorder.br);
+    window_border = BaseWindow::nullBorder;
+}
+
 void TextEditWindow::bufferWrapLine() {
-    for(auto i = display_begin_line; i <= display_end_line; i++){
-        if (line_buffer[i].contains('\n')) continue;
-        for (int j = width; j < line_buffer[i].size(); j += width) {
-            line_buffer[i].insert(j, L"\n");
-        }
-    }
+//    for(auto i = display_begin_line; i <= display_end_line; i++){
+//        if (line_buffer[i].contains('\n')) continue;
+//        for (int j = width; j < line_buffer[i].size(); j += width) {
+//            line_buffer[i].insert(j, L"\n");
+//        }
+//    }
 }
 
 void TextEditWindow::dumpBuffer() {
-    ull line_diff = vert_displacement - display_begin_line;
-    std::wstring before = line_buffer[display_begin_line];
-    ull last_pos = before.find(L'\n', 0);
-    for(ull i = 0; i < line_diff; i++){
-        if(last_pos == std::wstring::npos) break;
-        before = before.substr(last_pos, before.size());
-        last_pos = before.find(L'\n', last_pos);
-    }
-    auto pos = line_buffer[display_end_line].rfind(L'\n');
-    std::wstring after;
-    if (pos != std::wstring::npos) after = line_buffer[display_end_line].substr(pos);
-    else after = line_buffer[display_end_line];
-    display_buffer = before;
-    if (display_begin_line + 1 < display_end_line - 1) {
-        for (ull i = display_begin_line + 1; i < display_end_line - 1; i++) {
-            display_buffer += line_buffer[i] + L'\n';
-        }
-    }
-    display_buffer += after;
+//    ull line_diff = vert_displacement - display_begin_line;
+//    std::wstring before = line_buffer[display_begin_line];
+//    ull last_pos = before.find(L'\n', 0);
+//    for(ull i = 0; i < line_diff; i++){
+//        if(last_pos == std::wstring::npos) break;
+//        before = before.substr(last_pos, before.size());
+//        last_pos = before.find(L'\n', last_pos);
+//    }
+//    auto pos = line_buffer[display_end_line].rfind(L'\n');
+//    std::wstring after;
+//    if (pos != std::wstring::npos) after = line_buffer[display_end_line].substr(pos);
+//    else after = line_buffer[display_end_line];
+//    display_buffer = before;
+//    if (display_begin_line + 1 < display_end_line - 1) {
+//        for (ull i = display_begin_line + 1; i < display_end_line - 1; i++) {
+//            display_buffer += line_buffer[i] + L'\n';
+//        }
+//    }
+//    display_buffer += after;
 }
 
 void TextEditWindow::constructBuffer() {
@@ -256,7 +290,7 @@ void TextEditWindow::clearBuffer() {
 }
 
 TextEditWindow::~TextEditWindow() {
-    setBorder(nullBorder);
+    clearBorder();
     wrefresh(data);
     delwin(data);
     invalidateWindow();

@@ -11,14 +11,12 @@
 
 #include "ncursesw/ncurses.h"
 #include "datatype.h"
+#include "utility.hpp"
+#include "fmt/core.h"
+#include "fmt/xchar.h"
 #include <string>
 #include <vector>
 #include <sstream>
-
-/**
- * this only apply to text editing window
- */
-
 
 typedef struct WindowBorder{
     WindowBorder(wchar_t ls, wchar_t rs, wchar_t ts, wchar_t bs, wchar_t tl,
@@ -37,8 +35,6 @@ public:
 
     virtual ~BaseWindow();
 
-    void setBorder(const WindowBorder& border);
-
     NCSIZE getX() const;
 
     NCSIZE getY() const;
@@ -55,7 +51,23 @@ public:
 
     void invalidateWindow();
 
+
+
     bool isValidWindow();
+
+    virtual BaseWindow* setX(NCSIZE x);
+
+    virtual BaseWindow* setY(NCSIZE y);
+
+    virtual BaseWindow* setWidth(NCSIZE width);
+
+    virtual BaseWindow* setHeight(NCSIZE height);
+
+    virtual BaseWindow* setName(const std::wstring& name);
+
+    virtual BaseWindow* setPtr(WINDOW* updatedPtr);
+
+    virtual BaseWindow* setBorder(const WindowBorder& border);
 
     static WindowBorder simpleBorder;
 
@@ -80,6 +92,8 @@ protected:
     WINDOW* data;
     NCSIZE width, height, pos_x, pos_y;
     WindowBorder window_border;
+
+    void clearBorder();
 
     /**
      * construct the buffer of this window, typically including add the displaying line to the buffer and add line wrap
@@ -132,7 +146,7 @@ public:
         VIEW
     };
 
-    virtual ~TextEditWindow();
+    virtual ~TextEditWindow() override;
 
     TextEditWindow(WINDOW *data, std::wstring name, const WindowBorder &border, bool focus, NCSIZE startx, NCSIZE starty);
 

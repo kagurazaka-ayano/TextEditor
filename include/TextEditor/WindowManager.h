@@ -33,16 +33,49 @@ public:
 
     ~WindowManager() override;
 
+    /**
+     * create a window
+     * @tparam T type of window to be created
+     * @param startx x coord of upper left pos
+     * @param starty y coord of upper left pos
+     * @param width window width
+     * @param height window height
+     * @param name window name
+     * @param border window border
+     * @param focus whether this window should get focus or not, default true
+     * @return pointer to this window
+     */
     template<C T>
     T* createWindow(NCSIZE startx, NCSIZE starty, NCSIZE width, NCSIZE height, const std::wstring& name, WindowBorder border, bool focus = true);
 
-    BaseWindow* getWindow(const std::wstring& name);
+    /**
+     * get a window from window pool with its name
+     * @param name window name give in the assignment
+     * @return window pointer corresponding to the name
+     */
+    template<C T>
+    T* getWindow(const std::wstring& name);
 
+    /**
+     * get current terminal context
+     * @return current terminal context
+     */
     TerminalContext* getContext() const;
 
+    /**
+     * free a window
+     * @param window window pointer
+     * @remark you still have to assign the window to nullptr to avoid dangling ptr
+     */
     void killWindow(BaseWindow* window);
 
+    /**
+     * free the window with given name
+     * @param name name of the window
+     */
     void killWindow(const std::wstring& name);
+
+    void remakeWindow(BaseWindow* window, NCSIZE startx, NCSIZE starty, NCSIZE width, NCSIZE height, WindowBorder border);
 
     template<C T>
     void translateWindow(T* window, NCSIZE delta_x, NCSIZE delta_y);
@@ -80,17 +113,14 @@ T* WindowManager::createWindow(NCSIZE startx, NCSIZE starty, NCSIZE width, NCSIZ
 
 template<C T>
 void WindowManager::translateWindow(T *window, NCSIZE delta_x, NCSIZE delta_y) {
-    if (!isTranslateValid(window, window->getX() + delta_x, window->getY() + delta_y)) return;
     moveWindow<T>(window, window->getX() + delta_x, window->getY() + delta_y);
 }
 
 template<C T>
 void WindowManager::moveWindow(T *window, NCSIZE dest_x, NCSIZE dest_y) {
     if (!isTranslateValid(window, dest_x, dest_y)) return;
-    auto* dummy_window = createWindow<T>(dest_x, dest_y, window->getWidth(), window->getHeight(),
-                                        window->getName(), window->getBorder());
-    killWindow(window);
-    window = dummy_window;
+    remakeWindow(window, dest_x, dest_y, window->getWidth(), window->getHeight(), window->getBorder());
+
 }
 
 template<C T>
@@ -102,6 +132,15 @@ template <C T>
 void WindowManager::moveWindow(const std::wstring &name, NCSIZE dest_x, NCSIZE dest_y) {
     moveWindow<T>(window_map[name], dest_x, dest_y);
 }
+
+template<C T>
+T* WindowManager::getWindow(const std::wstring &name){
+    if (window_map.find(name) != window_map.end()){
+        return window_map.at(name);
+    }
+    return nullptr;
+}
+
 
 
 

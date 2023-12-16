@@ -6,15 +6,15 @@
 int main() {
     setenv("TERMINFO", TERMINFO_PATH, 1);
     setlocale(LC_ALL, "");
+    keypad(stdscr, true);
     initscr();
     raw();
     noecho();
-    keypad(stdscr, true);
     auto manager = WindowManager::Instance();
     NCSIZE startx = 1, starty = 1, width = manager->getContext()->getTerminalWidth() / 4, height = manager->getContext()->getTerminalHeight() / 4;
     auto* window = manager->createWindow<TextEditWindow>(startx, starty,
                                         width, height,
-                                        L"name", BaseWindow::starBorder);
+                                        L"name", BaseWindow::roundBorder);
 
     std::string buffer;
     refresh();
@@ -23,24 +23,24 @@ int main() {
         ch = getch();
         switch(ch){
             case 'd':
-                manager->translateWindow<TextEditWindow>(window, -1, 0);
-                break;
-            case 'a':
                 manager->translateWindow<TextEditWindow>(window, 1, 0);
                 break;
+            case 'a':
+                manager->translateWindow<TextEditWindow>(window, -1, 0);
+                break;
             case 'w':
-                manager->translateWindow<TextEditWindow>(window, 0, 1);
+                manager->translateWindow<TextEditWindow>(window, 0, -1);
                 break;
             case 's':
-                manager->translateWindow<TextEditWindow>(window, 0, -1);
+                manager->translateWindow<TextEditWindow>(window, 0, 1);
                 break;
             default:
                 window->addCh(ch);
                 break;
         }
-//        std::stringstream ss;
-//        ss << startx << " " << starty;
-//        mvaddstr(startx + 1, starty + 2, ss.str().c_str());
+        std::stringstream ss;
+        ss << window->getX() << " " << window->getY();
+        mvaddstr(window->getY() + 1, window->getX() + 1, ss.str().c_str());
         refresh();
     }
     manager->killWindow(window);

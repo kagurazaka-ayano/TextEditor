@@ -35,3 +35,9 @@
 cmake-build-debug
 build
 
+# Dependency libraries
+!dependencies/lib/fmt/Darwin/*.a
+!dependencies/lib/ncurses/Darwin/*.a
+!dependencies/lib/ncurses/mingw32/*.a
+!dependencies/lib/ncurses/mingw64/*.a
+!dependencies/lib/ncurses/terminfo/*
