@@ -1,5 +1,4 @@
 #include <string>
-#include <cstdlib>
 #include "ncursesw/ncurses.h"
 #include "WindowManager.h"
 #include "Window.h"
@@ -14,8 +13,7 @@ int main() {
     NCSIZE startx = 1, starty = 1, width = manager->getContext()->getTerminalWidth() / 4, height = manager->getContext()->getTerminalHeight() / 4;
     auto* window = manager->createWindow<TextEditWindow>(startx, starty,
                                         width, height,
-                                        L"name", BaseWindow::roundBorder);
-
+                                        L"name", BaseWindow::starBorder);
     std::string buffer;
     refresh();
     char ch = 0;
@@ -36,12 +34,9 @@ int main() {
                 break;
             default:
                 window->addCh(ch);
+
                 break;
         }
-        std::stringstream ss;
-        ss << window->getX() << " " << window->getY();
-        mvaddstr(window->getY() + 1, window->getX() + 1, ss.str().c_str());
-        refresh();
     }
     manager->killWindow(window);
     endwin();

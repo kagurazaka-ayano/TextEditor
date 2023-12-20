@@ -9,19 +9,18 @@
 #define TEXTEDITOR_WINDOWMANAGER_H
 
 #include <string>
-#include <iostream>
 #include <unordered_map>
 #include <vector>
-#include <typeinfo>
 #include "TerminalContext.h"
 #include "SingletonAbstract.hpp"
 #include "ncursesw/ncurses.h"
 #include "datatype.h"
 #include "Window.h"
-#include "utility.hpp"
+
 
 template<class T>
 concept C = (std::is_convertible<T*, BaseWindow*>::value);
+
 
 class WindowManager : public SingletonAbstract<WindowManager> {
     friend SingletonAbstract<WindowManager>;

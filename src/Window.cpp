@@ -20,6 +20,7 @@ BaseWindow::BaseWindow(WINDOW *data, std::wstring name, const WindowBorder &bord
 BaseWindow* BaseWindow::setBorder(const WindowBorder &border) {
     wborder(data, border.ls, border.rs, border.ts, border.bs, border.tl, border.tr, border.bl, border.br);
     window_border = border;
+    refreshWindow();
     return this;
 }
 
@@ -29,6 +30,10 @@ WINDOW *BaseWindow::getWindowPtr() const {
 
 void BaseWindow::invalidateWindow() {
     data = nullptr;
+}
+
+void BaseWindow::refreshWindow() {
+    wrefresh(data);
 }
 
 bool BaseWindow::isValidWindow() {
@@ -121,7 +126,10 @@ WindowBorder BaseWindow::getBorder() const {
 }
 
 BaseWindow* BaseWindow::setPtr(WINDOW* updatedPtr) {
+    clearBorder();
+    delwin(data);
     this->data = updatedPtr;
+    refreshWindow();
     return this;
 }
 
@@ -132,27 +140,31 @@ BaseWindow *BaseWindow::setName(const std::wstring &name) {
 
 BaseWindow *BaseWindow::setHeight(NCSIZE height) {
     this->height = height;
+    data->_maxy = height;
     return this;
 }
 
 BaseWindow *BaseWindow::setWidth(NCSIZE width) {
     this->width = width;
+    data->_maxx = height;
     return this;
 }
 
 BaseWindow *BaseWindow::setY(NCSIZE y) {
     this->pos_y = y;
+    data->_begy = y;
     return this;
 }
 
 BaseWindow *BaseWindow::setX(NCSIZE x) {
     this->pos_x = x;
+    data->_begx = x;
     return this;
 }
 
 void BaseWindow::clearBorder() {
-    wborder(data, BaseWindow::nullBorder.ls, BaseWindow::nullBorder.rs, BaseWindow::nullBorder.ts, BaseWindow::nullBorder.bs, BaseWindow::nullBorder.tl, BaseWindow::nullBorder.tr, BaseWindow::nullBorder.bl, BaseWindow::nullBorder.br);
-    window_border = BaseWindow::nullBorder;
+    wborder(data, nullBorder.ls, nullBorder.rs, nullBorder.ts, nullBorder.bs, nullBorder.tl, nullBorder.tr, nullBorder.bl, nullBorder.br);
+    window_border = nullBorder;
 }
 
 void TextEditWindow::bufferWrapLine() {
@@ -249,8 +261,8 @@ void TextEditWindow::removeChAt(ull linepos, ull colpos) {
 void TextEditWindow::removeChBetween(ull line_begin, ull line_end, ull col_begin, ull col_end) {
     if (line_begin >= line_buffer.size() || line_end >= line_buffer.size()) return;
     if (line_buffer[line_begin].size() <= col_begin || line_buffer[line_end].size() <= col_end) return;
-    if (line_begin > line_end) swap(line_begin, line_end);
-    if (col_begin > col_end) swap(col_begin, col_end);
+    if (line_begin > line_end) std::swap(line_begin, line_end);
+    if (col_begin > col_end) std::swap(col_begin, col_end);
     line_buffer[line_begin].erase(col_begin, line_buffer[line_begin].size() - 1);
     line_buffer[line_end].erase(0, col_end);
     if (line_begin != line_end) line_buffer.erase(line_buffer.begin() + line_begin + 1, line_buffer.begin() + line_end - 1);

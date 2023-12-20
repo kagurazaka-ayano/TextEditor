@@ -33,6 +33,7 @@
 
 # Build directories
 cmake-build-debug
+cmake-build-release
 build
 
 # Dependency libraries
@@ -46,6 +47,5 @@ build
 .DS_Store
 
 # doxygen output file
-
 Doc/out
 

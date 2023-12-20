@@ -8,7 +8,19 @@
   </component>
   <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
   <component name="CidrRootsConfiguration">
+    <sourceRoots>
+      <file path="$PROJECT_DIR$/include" />
+      <file path="$PROJECT_DIR$/src" />
+    </sourceRoots>
+    <libraryRoots>
+      <file path="$PROJECT_DIR$/dependencies/lib/fmt/Darwin" />
+      <file path="$PROJECT_DIR$/dependencies/lib/ncurses/Darwin" />
+      <file path="$PROJECT_DIR$/dependencies/lib/ncurses/mingw32" />
+      <file path="$PROJECT_DIR$/dependencies/lib/ncurses/mingw64" />
+      <file path="$PROJECT_DIR$/dependencies/lib/ncurses/terminfo" />
+    </libraryRoots>
     <excludeRoots>
+      <file path="$PROJECT_DIR$/Doc/out" />
       <file path="$PROJECT_DIR$/build" />
     </excludeRoots>
   </component>

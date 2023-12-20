@@ -10,7 +10,6 @@
 
 #include "ncursesw/ncurses.h"
 #include "datatype.h"
-#include "utility.hpp"
 #include "fmt/core.h"
 #include "fmt/xchar.h"
 #include <string>
@@ -50,7 +49,7 @@ public:
 
     void invalidateWindow();
 
-
+    void refreshWindow();
 
     bool isValidWindow();
 
@@ -161,7 +160,7 @@ public:
 
     void removeChBetween(ull line_begin, ull line_end, ull col_begin, ull col_end);
 
-    std::wstring getDisplayBuffer() const;
+    [[nodiscard]] std::wstring getDisplayBuffer() const;
 
 protected:
     void constructBuffer() override;

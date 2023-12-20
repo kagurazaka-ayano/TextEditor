@@ -41,17 +41,11 @@ WindowManager::~WindowManager() {
 }
 
 bool WindowManager::isTranslateValid(BaseWindow *window, NCSIZE newpos_x, NCSIZE newpos_y) {
-    return (0 < newpos_x + window->getWidth() && newpos_x + window->getWidth() < context->getTerminalWidth()) && (0 < newpos_y + window->getHeight() && newpos_y + window->getHeight() < context->getTerminalHeight());
+    return (0 <= newpos_x && newpos_x + window->getWidth() <= context->getTerminalWidth()) && (0 <= newpos_y && newpos_y + window->getHeight() <= context->getTerminalHeight());
 }
 
 void WindowManager::remakeWindow(BaseWindow *window, NCSIZE startx, NCSIZE starty, NCSIZE width, NCSIZE height,
                                  WindowBorder border) {
-    auto win_ptr = newwin(height, width, starty, startx);
-    window->setBorder(BaseWindow::nullBorder);
-    box(win_ptr, 0, 0);
-    wrefresh(window->getWindowPtr());
-    delwin(window->getWindowPtr());
-    window->setPtr(win_ptr)->setX(startx)->setY(starty)->setBorder(border);
-    wrefresh(win_ptr);
+    window->setBorder(BaseWindow::nullBorder)->setX(startx)->setY(starty)->setBorder(border)->refreshWindow();
 }
 
