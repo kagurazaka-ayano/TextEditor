@@ -9,7 +9,9 @@
   <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
   <component name="CidrRootsConfiguration">
     <sourceRoots>
+      <file path="$PROJECT_DIR$/dependencies/include" />
       <file path="$PROJECT_DIR$/include" />
+      <file path="$PROJECT_DIR$/include/TextEditor" />
       <file path="$PROJECT_DIR$/src" />
     </sourceRoots>
     <libraryRoots>

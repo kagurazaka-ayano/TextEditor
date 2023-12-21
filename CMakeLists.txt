@@ -11,6 +11,7 @@ set(LIB_ROOT dependencies/lib)
 
 # for wchar support
 add_compile_definitions(NCURSES_WIDECHAR)
+add_compile_definitions(_XOPEN_SOURCE_EXTENDED)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     execute_process(COMMAND uname -m COMMAND tr -d '\n' OUTPUT_VARIABLE ARCHITECTURE)

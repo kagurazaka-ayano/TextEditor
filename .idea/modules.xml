@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/TextEditor.iml" filepath="$PROJECT_DIR$/.idea/TextEditor.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/Writerside.iml" filepath="$PROJECT_DIR$/.idea/Writerside.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/TextEditor2.iml" filepath="$PROJECT_DIR$/.idea/TextEditor2.iml" />
     </modules>
   </component>
 </project>

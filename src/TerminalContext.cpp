@@ -7,19 +7,19 @@
 
 #include "TerminalContext.h"
 
-TerminalContext::TerminalContext(): width(getmaxx(stdscr)), height(getmaxy(stdscr)) {
+TerminalContext::TerminalContext() noexcept: width(getmaxx(stdscr)), height(getmaxy(stdscr)) {
 
 }
 
-void TerminalContext::updateDim() {
+void TerminalContext::updateDim() noexcept {
     width = getmaxx(stdscr);
     height = getmaxy(stdscr);
 }
 
-NCSIZE TerminalContext::getTerminalWidth() const {
+NCSIZE TerminalContext::getTerminalWidth() const noexcept {
     return width;
 }
 
-NCSIZE TerminalContext::getTerminalHeight() const {
+NCSIZE TerminalContext::getTerminalHeight() const noexcept {
     return height;
 }

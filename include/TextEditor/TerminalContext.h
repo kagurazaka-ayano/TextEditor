@@ -2,8 +2,10 @@
  * @file TerminalContext.h
  * @author ayano
  * @date 12/4/23
- * @brief
+ * @brief context of current terminal, include all the parameters of current terminal
 */
+
+// TODO: will refresh each time when the terminal is resized(unimplemented)
 
 #ifndef TEXTEDITOR_TERMINALCONTEXT_H
 #define TEXTEDITOR_TERMINALCONTEXT_H
@@ -18,16 +20,29 @@ public:
 
     TerminalContext& operator=(TerminalContext& other) = delete;
     TerminalContext(TerminalContext& other) = delete;
+    TerminalContext(TerminalContext&& other) = delete;
 
-    NCSIZE getTerminalWidth() const;
-    NCSIZE getTerminalHeight() const;
+    /**
+     * @brief get terminal width
+     * @return width of this terminal
+     */
+    NCSIZE getTerminalWidth() const noexcept;
+
+    /**
+     * @brief get terminal height
+     * @return height of this terminal
+     */
+    NCSIZE getTerminalHeight() const noexcept;
 
 private:
     NCSIZE width;
     NCSIZE height;
-    TerminalContext();
+    TerminalContext() noexcept;
 
-    void updateDim();
+    /**
+     * @brief update dimension variable
+     */
+    void updateDim() noexcept;
 };
 
 

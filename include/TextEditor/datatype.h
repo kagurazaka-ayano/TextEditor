@@ -19,16 +19,20 @@ typedef unsigned long long ull;
 /**
  * general purpose color structure
  */
-struct Color{
-    unsigned char r;
-    unsigned char g;
-    unsigned char b;
-    unsigned char a;
-    unsigned char data[8]{0x00, 0x00, 0x00, 0x00};
-    Color();
-    Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
-    Color& operator=(const Color& other);
-    Color(const Color& other) = default;
+struct Color {
+	unsigned char r;
+	unsigned char g;
+	unsigned char b;
+	unsigned char a;
+	unsigned char data[8]{0x00, 0x00, 0x00, 0x00};
+
+	Color();
+
+	Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+
+	Color &operator=(const Color &other);
+
+	Color(const Color &other) = default;
 };
 
 #endif //TEXTEDITOR_DEFINITION_H

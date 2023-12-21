@@ -25,7 +25,7 @@ void WindowManager::killWindow(const std::wstring &name) {
     killWindow(element);
 }
 
-TerminalContext *WindowManager::getContext() const {
+TerminalContext *WindowManager::getContext() const noexcept {
     return context;
 }
 
@@ -40,12 +40,33 @@ WindowManager::~WindowManager() {
     }
 }
 
-bool WindowManager::isTranslateValid(BaseWindow *window, NCSIZE newpos_x, NCSIZE newpos_y) {
-    return (0 <= newpos_x && newpos_x + window->getWidth() <= context->getTerminalWidth()) && (0 <= newpos_y && newpos_y + window->getHeight() <= context->getTerminalHeight());
+bool WindowManager::isTranslateValid(BaseWindow *window, NCSIZE newposX, NCSIZE newposY) const noexcept {
+    return (0 <= newposX && newposX + window->getWidth() <= context->getTerminalWidth()) && (0 <= newposY && newposY + window->getHeight() <= context->getTerminalHeight());
 }
 
 void WindowManager::remakeWindow(BaseWindow *window, NCSIZE startx, NCSIZE starty, NCSIZE width, NCSIZE height,
-                                 WindowBorder border) {
+                                 const WindowBorder &border) {
     window->setBorder(BaseWindow::nullBorder)->setX(startx)->setY(starty)->setBorder(border)->refreshWindow();
+}
+
+void WindowManager::translateWindow(BaseWindow *window, NCSIZE deltaX, NCSIZE deltaY) {
+    moveWindow(window, window->getX() + deltaX, window->getY() + deltaY);
+}
+
+
+void WindowManager::moveWindow(BaseWindow *window, NCSIZE destX, NCSIZE destY) {
+    if (!isTranslateValid(window, destX, destY)) return;
+    remakeWindow(window, destX, destY, window->getWidth(), window->getHeight(), window->getBorder());
+
+}
+
+
+void WindowManager::translateWindow(const std::wstring &name, NCSIZE deltaX, NCSIZE deltaY) {
+    translateWindow(window_map[name], deltaX, deltaY);
+}
+
+
+void WindowManager::moveWindow(const std::wstring &name, NCSIZE destX, NCSIZE destY) {
+    moveWindow(window_map[name], destX, destY);
 }
 

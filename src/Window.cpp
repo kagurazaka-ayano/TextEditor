@@ -24,11 +24,11 @@ BaseWindow* BaseWindow::setBorder(const WindowBorder &border) {
     return this;
 }
 
-WINDOW *BaseWindow::getWindowPtr() const {
+WINDOW *BaseWindow::getWindowPtr() const noexcept {
     return data;
 }
 
-void BaseWindow::invalidateWindow() {
+void BaseWindow::invalidateWindow() noexcept {
     data = nullptr;
 }
 
@@ -36,7 +36,7 @@ void BaseWindow::refreshWindow() {
     wrefresh(data);
 }
 
-bool BaseWindow::isValidWindow() {
+bool BaseWindow::isValidWindow() const noexcept {
     return data != nullptr;
 }
 
@@ -101,27 +101,27 @@ void BaseWindow::exitFocus() {
     focus = false;
 }
 
-NCSIZE BaseWindow::getX() const {
+NCSIZE BaseWindow::getX() const noexcept {
     return pos_x;
 }
 
-NCSIZE BaseWindow::getY() const {
+NCSIZE BaseWindow::getY() const noexcept {
     return pos_y;
 }
 
-std::wstring BaseWindow::getName() const {
+std::wstring BaseWindow::getName() const noexcept {
     return name;
 }
 
-NCSIZE BaseWindow::getWidth() const {
+NCSIZE BaseWindow::getWidth() const noexcept {
     return width;
 }
 
-NCSIZE BaseWindow::getHeight() const {
+NCSIZE BaseWindow::getHeight() const noexcept {
     return height;
 }
 
-WindowBorder BaseWindow::getBorder() const {
+WindowBorder BaseWindow::getBorder() const noexcept {
     return window_border;
 }
 

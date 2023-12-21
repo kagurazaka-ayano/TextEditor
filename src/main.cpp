@@ -2,39 +2,40 @@
 #include "ncursesw/ncurses.h"
 #include "WindowManager.h"
 #include "Window.h"
+#include "InputHandler.h"
 int main() {
     setenv("TERMINFO", TERMINFO_PATH, 1);
-    setlocale(LC_ALL, "");
+    setlocale(LC_ALL, "en_US.UTF-8");
     keypad(stdscr, true);
     initscr();
     raw();
     noecho();
+    auto promise = std::promise<char>();
     auto manager = WindowManager::Instance();
     NCSIZE startx = 1, starty = 1, width = manager->getContext()->getTerminalWidth() / 4, height = manager->getContext()->getTerminalHeight() / 4;
     auto* window = manager->createWindow<TextEditWindow>(startx, starty,
                                         width, height,
-                                        L"name", BaseWindow::starBorder);
+                                        L"name", BaseWindow::roundBorder);
     std::string buffer;
     refresh();
     char ch = 0;
     while(ch != 'Q'){
         ch = getch();
         switch(ch){
-            case 'd':
-                manager->translateWindow<TextEditWindow>(window, 1, 0);
+            case 'l':
+                manager->translateWindow(window, 1, 0);
                 break;
-            case 'a':
-                manager->translateWindow<TextEditWindow>(window, -1, 0);
+            case 'h':
+                manager->translateWindow(window, -1, 0);
                 break;
-            case 'w':
-                manager->translateWindow<TextEditWindow>(window, 0, -1);
+            case 'k':
+                manager->translateWindow(window, 0, -1);
                 break;
-            case 's':
-                manager->translateWindow<TextEditWindow>(window, 0, 1);
+            case 'j':
+                manager->translateWindow(window, 0, 1);
                 break;
             default:
                 window->addCh(ch);
-
                 break;
         }
     }

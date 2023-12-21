@@ -2,8 +2,10 @@
  * @file Window.h
  * @author ayano
  * @date 12/4/23
- * @brief
+ * @brief some window wrapper classes
 */
+
+// TODO: implement more windows
 
 #ifndef TEXTEDITOR_WINDOW_H
 #define TEXTEDITOR_WINDOW_H
@@ -16,15 +18,15 @@
 #include <vector>
 #include <sstream>
 
-typedef struct WindowBorder{
+struct WindowBorder{
     WindowBorder(wchar_t ls, wchar_t rs, wchar_t ts, wchar_t bs, wchar_t tl,
                  wchar_t tr, wchar_t bl, wchar_t br);
     wchar_t ls, rs, ts, bs, tl, tr, bl, br;
 
-}windowBorder;
+};
 
 /**
- * basic window class, the base class of all other window.
+ * @brief basic window class, all other window should inherit this class
  */
 class BaseWindow{
 public:
@@ -33,38 +35,110 @@ public:
 
     virtual ~BaseWindow();
 
-    NCSIZE getX() const;
+    /**
+     * @brief get x coord
+     * @return x coord
+     */
+    NCSIZE getX() const noexcept;
 
-    NCSIZE getY() const;
+    /**
+     * @brief get y coord
+     * @return y coord
+     */
+    NCSIZE getY() const noexcept;
 
-    NCSIZE getWidth() const;
+    /**
+     * @brief get window width
+     * @return window width
+     */
+    NCSIZE getWidth() const noexcept;
 
-    NCSIZE getHeight() const;
+    /**
+     * @brief get window height
+     * @return window height
+     */
+    NCSIZE getHeight() const noexcept;
 
-    std::wstring getName() const;
+    /**
+     * @brief get window name
+     * @return window name
+     */
+    std::wstring getName() const noexcept;
 
-    WINDOW* getWindowPtr() const;
+    /**
+     * @brief get the raw window ptr
+     * @return raw window ptr
+     */
+    WINDOW* getWindowPtr() const noexcept;
 
-    WindowBorder getBorder() const;
+    /**
+     * @brief get the border the window is using
+     * @return border the window is using
+     */
+    WindowBorder getBorder() const noexcept;
 
-    void invalidateWindow();
+    /**
+     * @brief make this window invalid by make the raw window object nullptr
+     */
+    void invalidateWindow() noexcept;
 
+    /**
+     * @brief refresh window
+     */
     void refreshWindow();
 
-    bool isValidWindow();
+    /**
+     * @brief check this window is valid or not
+     * @return true if this window is valid, false otherwise
+     */
+    bool isValidWindow() const noexcept;
 
+    /**
+     * @brief set x coord
+     * @param x new x coord
+     * @return window ptr for method chaining
+     */
     virtual BaseWindow* setX(NCSIZE x);
-
+    /**
+     * @brief set y coord
+     * @param y new y coord
+     * @return window ptr for method chaining
+     */
     virtual BaseWindow* setY(NCSIZE y);
 
+    /**
+     * @brief set window width
+     * @param width new width
+     * @return window ptr for method chaining
+     */
     virtual BaseWindow* setWidth(NCSIZE width);
 
+    /**
+     * @brief set window height
+     * @param height new height
+     * @return window ptr for method chaining
+     */
     virtual BaseWindow* setHeight(NCSIZE height);
 
+    /**
+     * @brief set window name
+     * @param name new name
+     * @return window ptr for method chaining
+     */
     virtual BaseWindow* setName(const std::wstring& name);
 
+    /**
+     * @brief set raw window ptr
+     * @param name new raw window ptr
+     * @return window ptr for method chaining
+     */
     virtual BaseWindow* setPtr(WINDOW* updatedPtr);
 
+    /**
+     * @brief set window border
+     * @param name new border
+     * @return window ptr for method chaining
+     */
     virtual BaseWindow* setBorder(const WindowBorder& border);
 
     static WindowBorder simpleBorder;
@@ -94,44 +168,42 @@ protected:
     void clearBorder();
 
     /**
-     * construct the buffer of this window, typically including add the displaying line to the buffer and add line wrap
+     * @brief construct the buffer of this window, typically including add the displaying line to the buffer and add line wrap
      */
     virtual void constructBuffer() = 0;
 
     /**
-     * clear the buffer
+     * @brief clear the buffer
      */
     virtual void clearBuffer() = 0;
 
     /**
-     * display buffer to the window, typically putting the display buffer onto the screen
+     * @brief display buffer to the window, typically putting the display buffer onto the screen
      */
     virtual void displayBuffer() = 0;
 
     /**
-     * update the buffer content each time buffer is modified, typically add line break and update highlighting
+     * @brief update the buffer content each time buffer is modified, typically add line break and update highlighting
      */
     virtual void updateBuffer() = 0;
 
     /**
-     * make current window get focus
+     * @brief make current window get focus
      */
     virtual void enterFocus();
 
     /**
-     * make current window lose focus
+     * @brief make current window lose focus
      */
     virtual void exitFocus();
 
     /**
-     * dump line into buffer
+     * @brief dump line into buffer
      */
     virtual void dumpBuffer() = 0;
 
     // whether this window has focus or not
     bool focus;
-
-
 };
 
 
