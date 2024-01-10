@@ -1,3 +1,3 @@
 # TextEditor
 
-Just a practice project
+A terminal-based text editor
