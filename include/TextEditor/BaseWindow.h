@@ -1,5 +1,5 @@
 /**
- * @file Window.h
+ * @file BaseWindow.h
  * @author ayano
  * @date 12/4/23
  * @brief some window wrapper classes
@@ -7,8 +7,8 @@
 
 // TODO: implement more windows
 
-#ifndef TEXTEDITOR_WINDOW_H
-#define TEXTEDITOR_WINDOW_H
+#ifndef TEXTEDITOR_BASEWINDOW_H
+#define TEXTEDITOR_BASEWINDOW_H
 
 #include "ncursesw/ncurses.h"
 #include "datatype.h"
@@ -17,6 +17,8 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <initializer_list>
+#include <unordered_map>
 
 struct WindowBorder{
     WindowBorder(wchar_t ls, wchar_t rs, wchar_t ts, wchar_t bs, wchar_t tl,
@@ -24,6 +26,8 @@ struct WindowBorder{
     wchar_t ls, rs, ts, bs, tl, tr, bl, br;
 
 };
+
+
 
 /**
  * @brief basic window class, all other window should inherit this class
@@ -91,7 +95,7 @@ public:
      * @brief check this window is valid or not
      * @return true if this window is valid, false otherwise
      */
-    bool isValidWindow() const noexcept;
+    [[nodiscard]] bool isValidWindow() const noexcept;
 
     /**
      * @brief set x coord
@@ -141,6 +145,14 @@ public:
      */
     virtual BaseWindow* setBorder(const WindowBorder& border);
 
+    void attrBegin(const std::initializer_list<attributes> &attr, NCSIZE pos) noexcept;
+
+    void attrEnd(const std::initializer_list<attributes> &attr, NCSIZE pos) noexcept;
+
+    NCSIZE getCursorX() const noexcept;
+
+    NCSIZE getCursorY() const noexcept;
+
     static WindowBorder simpleBorder;
 
     static WindowBorder nullBorder;
@@ -162,9 +174,16 @@ protected:
     std::vector<std::wstring> line_buffer;
     std::wstring name;
     WINDOW* data;
+    // window width, height, x pos, y pos
     NCSIZE width, height, pos_x, pos_y;
+    NCSIZE cursor_pos_x, cursor_pos_y;
     WindowBorder window_border;
+    std::vector<std::vector<AttrIndicator>> attr_list;
+    ull attr_depth = 0;
 
+    /**
+     * @brief clear the border
+     */
     void clearBorder();
 
     /**
@@ -188,6 +207,11 @@ protected:
     virtual void updateBuffer() = 0;
 
     /**
+     * @brief apply attribute to the buffer
+     */
+    virtual void updateAttribute() = 0;
+
+    /**
      * @brief make current window get focus
      */
     virtual void enterFocus();
@@ -208,52 +232,6 @@ protected:
 
 
 
-class TextEditWindow : public BaseWindow {
-public:
 
-    enum class WindowState{
-        INSERT,
-        VIEW
-    };
 
-    virtual ~TextEditWindow() override;
-
-    TextEditWindow(WINDOW *data, std::wstring name, const WindowBorder &border, bool focus, NCSIZE startx, NCSIZE starty);
-
-    void addCh(wchar_t ch);
-
-    void addStr(const std::wstring& str);
-
-    void addStrAt(const std::wstring &str, ull line, ull col);
-
-    void popCh();
-
-    void removeChAt(ull linepos, ull colpos);
-
-    void removeChBetween(ull line_begin, ull line_end, ull col_begin, ull col_end);
-
-    [[nodiscard]] std::wstring getDisplayBuffer() const;
-
-protected:
-    void constructBuffer() override;
-
-    void displayBuffer() override;
-
-    void updateBuffer() override;
-
-    void clearBuffer() override;
-
-    void dumpBuffer() override;
-
-    /**
-    * wrap line of buffer to make it prettier
-    */
-    virtual void bufferWrapLine();
-
-    // keep track which position the cursor is
-    ull line, col;
-
-    WindowState state;
-};
-
-#endif //TEXTEDITOR_WINDOW_H
+#endif //TEXTEDITOR_BASEWINDOW_H

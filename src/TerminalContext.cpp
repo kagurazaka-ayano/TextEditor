@@ -2,7 +2,7 @@
  * @file TerminalContext.cpp
  * @author ayano
  * @date 12/4/23
- * @brief
+ * @brief context of current terminal
 */
 
 #include "TerminalContext.h"

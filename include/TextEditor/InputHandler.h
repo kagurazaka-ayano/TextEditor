@@ -7,6 +7,7 @@
 */
 
 // TODO: implement this class
+// TODO: add callback functionality
 
 #ifndef INPUTHANDLER_H
 #define INPUTHANDLER_H
@@ -14,17 +15,17 @@
 #include <condition_variable>
 #include <thread>
 #include <future>
-#include <Window.h>
+#include <BaseWindow.h>
 #include "ncursesw/ncurses.h"
 
 
 class InputHandler : public SingletonAbstract<InputHandler> {
     friend SingletonAbstract<InputHandler>;
 public:
-    void operator()(std::promise<wchar_t>&& promise, const BaseWindow& window);
     InputHandler& operator=(InputHandler& other) = delete;
     InputHandler(InputHandler& other) = delete;
     InputHandler(InputHandler&& other) = delete;
+    wchar_t getWcharInput(const BaseWindow& window);
 private:
     InputHandler() = default;
 };

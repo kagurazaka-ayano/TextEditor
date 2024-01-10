@@ -7,10 +7,8 @@
 
 #include "InputHandler.h"
 
-
-
-void InputHandler::operator()(std::promise<wchar_t> &&promise, const BaseWindow &window) {
-    while(true) {
-//        promise.set_value(wget_wch(window.getWindowPtr(), ));
-    }
+wchar_t InputHandler::getWcharInput(const BaseWindow &window) {
+    wint_t ret;
+    wget_wch(window.getWindowPtr(), &ret);
+    return ret;
 }

@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/TextEditor.iml" filepath="$PROJECT_DIR$/.idea/TextEditor.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/TextEditor2.iml" filepath="$PROJECT_DIR$/.idea/TextEditor2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/TextEditor3.iml" filepath="$PROJECT_DIR$/.idea/TextEditor3.iml" />
     </modules>
   </component>
 </project>

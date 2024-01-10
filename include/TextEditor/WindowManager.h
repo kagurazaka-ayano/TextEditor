@@ -16,7 +16,7 @@
 #include "SingletonAbstract.hpp"
 #include "ncursesw/ncurses.h"
 #include "datatype.h"
-#include "Window.h"
+#include "BaseWindow.h"
 
 // defined to include all ptr inherent BaseWindow
 template<class T>
